@@ -56,10 +56,7 @@ export const UserProfileSchema = z.object({
   age: z.number().int().min(19).max(80),
   annual_salary: z.number().int().min(0),
   income_type: IncomeTypeSchema,
-  invest_types: z
-    .array(InvestTypeSchema)
-    .min(1, { message: '보유 투자 유형을 1개 이상 선택해주세요' })
-    .max(20),
+  invest_types: z.array(InvestTypeSchema).max(20),
   monthly_invest: z.number().int().min(0),
   has_isa: z.boolean(),
   has_pension: z.boolean(),

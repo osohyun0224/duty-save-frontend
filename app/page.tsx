@@ -160,7 +160,11 @@ export default function HomePage() {
         </Section>
 
         <Section title="투자 현황">
-          <Field label="보유 투자 유형 (복수 선택)" error={errors.invest_types}>
+          <Field
+            label="보유 투자 유형"
+            hint="해당하는 항목을 모두 선택 (투자 중인 게 없으면 비워두세요)"
+            error={errors.invest_types}
+          >
             <div className="grid grid-cols-2 gap-2">
               {(Object.keys(INVEST_TYPE_LABEL) as InvestType[]).map((t) => (
                 <Checkbox
@@ -333,11 +337,13 @@ function Field({
   label,
   children,
   error,
+  hint,
   indent,
 }: {
   label: string;
   children: React.ReactNode;
   error?: string;
+  hint?: string;
   indent?: boolean;
 }) {
   return (
@@ -345,6 +351,7 @@ function Field({
       <label className="mb-1.5 block text-sm font-medium text-slate-700">
         {label}
       </label>
+      {hint && <p className="mb-2 text-xs text-slate-500">{hint}</p>}
       {children}
       {error && <p className="mt-1 text-xs text-red-600">{error}</p>}
     </div>

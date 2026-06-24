@@ -58,9 +58,27 @@ export default function ResultPage() {
     return (
       <main>
         <BackLink />
-        <div className="rounded-2xl border border-slate-200 bg-white p-6 text-center text-sm text-slate-600">
-          현재 입력 기준으로 추천할 절세 상품이 없습니다. 입력값을 다시
-          확인해보세요.
+        <header className="mb-6">
+          <p className="text-xs font-medium text-slate-500">
+            {response.profile_summary}
+          </p>
+          <h1 className="mt-1 text-2xl font-bold tracking-tight text-slate-900">
+            적용 가능한 절세 전략이 없어요
+          </h1>
+        </header>
+        <div className="rounded-2xl border border-slate-200 bg-white p-6 text-sm leading-relaxed text-slate-600">
+          <p>
+            현재 입력 기준으로는 추천드릴 절세 상품을 찾지 못했어요. 보통 다음
+            중 하나에 해당돼요.
+          </p>
+          <ul className="mt-3 list-disc space-y-1 pl-5">
+            <li>소득이 없어 세액공제 대상이 아님 (연봉·소득 유형 확인)</li>
+            <li>월 투자 가능액이 0원이라 추가 납입 추천이 불가</li>
+            <li>해외주식·고배당 등 절세 룰이 적용될 자산이 없음</li>
+          </ul>
+          <p className="mt-3">
+            투자를 시작하시거나 상황이 바뀌면 다시 분석해보세요.
+          </p>
         </div>
       </main>
     );
