@@ -61,6 +61,7 @@ export class IsaRule extends BaseRule {
     const variant = pickIsaVariant(profile);
     const annualInv = profile.monthly_invest * 12;
     const fill = Math.min(ISA_ANNUAL_MAX, annualInv);
+    const isStarter = fill === 0;
     const estProfit = fill * ISA_EXPECTED_RETURN_RATE;
     const benefitManWon = Math.round(
       Math.min(estProfit, variant.taxFreeLimit) * ISA_NORMAL_TAX_RATE
@@ -69,6 +70,13 @@ export class IsaRule extends BaseRule {
       benefitManWon,
       URGENCY.IMMEDIATE
     );
+
+    const reason = isStarter
+      ? `${variant.shortLabel} ISA 미보유. 지금 계좌만 미리 개설해두면 향후 투자 시작 시 연 수익 ${variant.taxFreeLimit}만원까지 비과세, 초과분 ${(ISA_EXCESS_TAX_RATE * 100).toFixed(1)}% 분리과세 혜택을 바로 활용할 수 있어요.`
+      : `${variant.shortLabel} ISA 미보유. 연 수익 ${variant.taxFreeLimit}만원까지 비과세, 초과분 ${(ISA_EXCESS_TAX_RATE * 100).toFixed(1)}%(일반 ${(ISA_NORMAL_TAX_RATE * 100).toFixed(1)}% 대비 절세). 계좌 내 손익통산으로 세금 추가 절감.`;
+    const action = isStarter
+      ? `${variant.productLabel} 계좌 먼저 개설해두기 (월 투자 시작되면 연 한도 ${ISA_ANNUAL_MAX}만원까지 활용 가능)`
+      : `${variant.productLabel} 개설 후 연 최대 ${fill}만원 납입`;
 
     return {
       rule_id: variant.ruleId,
@@ -79,9 +87,11 @@ export class IsaRule extends BaseRule {
       recommended_contribution_krw: fill * MAN_WON_TO_KRW,
       annual_limit_krw: ISA_ANNUAL_MAX * MAN_WON_TO_KRW,
       tax_rate_percent: Math.round(ISA_EXCESS_TAX_RATE * 1000) / 10,
-      short_strategy: `ISA ${variant.shortLabel} 비과세 한도(${variant.taxFreeLimit}만원) 활용`,
-      reason: `${variant.shortLabel} ISA 미보유. 연 수익 ${variant.taxFreeLimit}만원까지 비과세, 초과분 ${(ISA_EXCESS_TAX_RATE * 100).toFixed(1)}%(일반 ${(ISA_NORMAL_TAX_RATE * 100).toFixed(1)}% 대비 절세). 계좌 내 손익통산으로 세금 추가 절감.`,
-      action: `${variant.productLabel} 개설 후 연 최대 ${fill}만원 납입`,
+      short_strategy: isStarter
+        ? `ISA ${variant.shortLabel} 계좌 선개설 — 비과세 한도 ${variant.taxFreeLimit}만원 준비`
+        : `ISA ${variant.shortLabel} 비과세 한도(${variant.taxFreeLimit}만원) 활용`,
+      reason,
+      action,
       warning: '해외주식 직접 투자 불가 / 국내 상장 해외ETF는 가능 / 3년 의무 유지',
     };
   }

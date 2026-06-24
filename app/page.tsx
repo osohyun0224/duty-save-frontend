@@ -162,7 +162,7 @@ export default function HomePage() {
         <Section title="투자 현황">
           <Field
             label="보유 투자 유형"
-            hint="해당하는 항목을 모두 선택 (투자 중인 게 없으면 비워두세요)"
+            hint="해당하는 항목을 모두 선택하세요"
             error={errors.invest_types}
           >
             <div className="grid grid-cols-2 gap-2">
@@ -174,6 +174,17 @@ export default function HomePage() {
                   onChange={() => toggleInvestType(t)}
                 />
               ))}
+            </div>
+            <div className="mt-2 border-t border-slate-100 pt-2">
+              <Checkbox
+                label="해당 없음 (투자 중인 종목이 없어요)"
+                checked={form.invest_types.length === 0}
+                onChange={() => {
+                  if (form.invest_types.length > 0) {
+                    update('invest_types', []);
+                  }
+                }}
+              />
             </div>
           </Field>
           <Field label="월 투자 가능액 (만원)" error={errors.monthly_invest}>
