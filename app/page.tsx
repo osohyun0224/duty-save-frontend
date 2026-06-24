@@ -128,7 +128,7 @@ export default function HomePage() {
         </p>
       </header>
 
-      <form onSubmit={handleSubmit} className="space-y-8">
+      <form onSubmit={handleSubmit} className="space-y-8 pb-32">
         <Section title="기본 정보">
           <Field label="나이" error={errors.age}>
             <NumberInput
@@ -317,13 +317,17 @@ export default function HomePage() {
           )}
         </Section>
 
-        <button
-          type="submit"
-          disabled={submitting}
-          className="w-full rounded-xl bg-brand-600 px-6 py-3.5 text-base font-semibold text-white transition hover:bg-brand-700 disabled:opacity-50"
-        >
-          {submitting ? '분석 중...' : 'Top 5 추천 받기'}
-        </button>
+        <div className="fixed inset-x-0 bottom-0 z-40 border-t border-slate-200 bg-white/95 pb-[env(safe-area-inset-bottom)] backdrop-blur">
+          <div className="mx-auto max-w-3xl px-4 py-4">
+            <button
+              type="submit"
+              disabled={submitting}
+              className="w-full rounded-xl bg-brand-600 px-6 py-3.5 text-base font-semibold text-white transition hover:bg-brand-700 disabled:opacity-50"
+            >
+              {submitting ? '분석 중...' : '보러가기'}
+            </button>
+          </div>
+        </div>
       </form>
     </main>
   );
